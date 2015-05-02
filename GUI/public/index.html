@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Датчик влажности почвы</title>
+	<style>
+		body {
+			background-color: rgb(237, 235, 42);
+			text-align: center;
+			color: white;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function (){
+			function getHumibility(){
+				$.get('/humidity',function (data){
+					$('.raw_data').html(data);
+				});
+			}
+
+
+			setInterval(getHumibility, 1000);
+		});
+	</script>
+</head>
+<body>
+	<h1>СУХО</h1>
+	<div class="raw_data"></div>
+</body>
+</html>
