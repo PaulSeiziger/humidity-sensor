@@ -6,47 +6,29 @@
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script src="/js/jquery.color-2.1.2.min.js"></script>
-	<script>
-		$(document).ready(function (){
-			function getHumibility(){
-				$.get('/humidity',function (data){
-					$('.raw_data').html(data);
-
-					if(parseInt(data) < 500){
-						$('body').animate({backgroundColor: '#2D95BF'}, 500);
-						$('h1').html('Влажность почвы: Очень высокая');
-					}
-
-					if(parseInt(data) > 900){
-						$('body').animate({backgroundColor: '#F0C419'}, 500);
-						$('h1').html('Влажность почвы: Низкая');
-					}
-
-					if((parseInt(data) >= 500) && (parseInt(data) <= 900)){
-						$('body').animate({backgroundColor: '#4EBA6F'}, 500);
-						$('h1').html('Влажность почвы: Нормальная');
-					}
-				});
-			}
-
-
-			setInterval(getHumibility, 1000);
-
-
-			$('.send_config').click(function() {
-				var cfg = {
-					"humidity_low": 600,
-					"humidity_high": 800
-				};
-
-				$.post('/set_config', cfg, function(data){alert(data);}, 'json');
-			});
-		});
-	</script>
+	<script src="/js/control.js"></script>
 </head>
 <body>
-	<h1>Влажность почвы: Низкая</h1>
-	<div class="raw_data"></div>
-	<button class="send_config">Отправить конфиг</button>
+	<h1>Влажность почвы:<br/>Не определена</h1>
+	<div class="content"><img src="images/plant.svg" alt="" width="200px"></div>
+	<img src="images/config.svg" alt="" class="show_config">
+
+	<div class="config_window">
+		<img src="images/close.svg" alt="" class="close_config">
+		<div class="title">Настройки</div>
+		<table>
+			<tr>
+				<td>Низкая влажность, от: <input type="text" id="low"></td>
+				<td>Высокая влажность, от: <input type="text" id="high"></td>
+			</tr>
+			<tr>
+				<td>Опрос датчика, мс.: <input type="text" id="interval"> </td>
+				<td>Время анимации, мс.: <input type="text" id="animation_time"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button class="send_config">Сохранить настройки</button></td>
+			</tr>
+		</table>
+	</div>
 </body>
 </html>

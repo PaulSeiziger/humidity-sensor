@@ -18,29 +18,33 @@ var serialPort = new SerialPort(config.com_port, {
 
 var humidity_value = 0;
 
-
 serialPort.on("open", function () {
-  console.log('Connected...');
-
+	console.log('Connected...');
 
 	serialPort.on('data', function(data) {
 		//Нужно чтобы входящий пакет состоял из 2-х байт
-		console.log(data);
+		//console.log(data);
 		if(data.length == 2){
 			humidity_value = (data[0] << 8) | data[1];
 		}
+		
 	});
 
 	serialPort.on('error', function(err) {
 	  console.log(err);
 	});
+
+	//Получаем первое значение датчика
+	var buffer = new Buffer(1);
+	buffer.writeUInt8(config.commands.get_humidity, 0);
+	serialPort.write(buffer);
 });
 
 
 app.use(express.static(__dirname + '/public'));
 app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
+	extended: true
 })); 
 
 //Запрос данных о влажности
@@ -64,7 +68,12 @@ app.get('/get_config', function (req, res) {
 
 //Сохранение конфигурации
 app.post('/set_config', function (req, res) {
-	console.log(req.body);
+	var cfg = JSON.stringify(req.body);
+	fs.writeFile(__dirname + '/config/gui_config.json', cfg ,function (err) {
+		if (err) throw err;
+		res.end('Ошибка сохранения конфигурации');
+	});
+	//console.log(req.body);
 });
 
 //Показ главной страницы
