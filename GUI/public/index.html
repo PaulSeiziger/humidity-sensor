@@ -3,29 +3,50 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Датчик влажности почвы</title>
-	<style>
-		body {
-			background-color: rgb(237, 235, 42);
-			text-align: center;
-			color: white;
-		}
-	</style>
+	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="/js/jquery.color-2.1.2.min.js"></script>
 	<script>
 		$(document).ready(function (){
 			function getHumibility(){
 				$.get('/humidity',function (data){
 					$('.raw_data').html(data);
+
+					if(parseInt(data) < 500){
+						$('body').animate({backgroundColor: '#2D95BF'}, 500);
+						$('h1').html('Влажность почвы: Очень высокая');
+					}
+
+					if(parseInt(data) > 900){
+						$('body').animate({backgroundColor: '#F0C419'}, 500);
+						$('h1').html('Влажность почвы: Низкая');
+					}
+
+					if((parseInt(data) >= 500) && (parseInt(data) <= 900)){
+						$('body').animate({backgroundColor: '#4EBA6F'}, 500);
+						$('h1').html('Влажность почвы: Нормальная');
+					}
 				});
 			}
 
 
 			setInterval(getHumibility, 1000);
+
+
+			$('.send_config').click(function() {
+				var cfg = {
+					"humidity_low": 600,
+					"humidity_high": 800
+				};
+
+				$.post('/set_config', cfg, function(data){alert(data);}, 'json');
+			});
 		});
 	</script>
 </head>
 <body>
-	<h1>СУХО</h1>
+	<h1>Влажность почвы: Низкая</h1>
 	<div class="raw_data"></div>
+	<button class="send_config">Отправить конфиг</button>
 </body>
 </html>
