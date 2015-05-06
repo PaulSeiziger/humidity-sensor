@@ -25,12 +25,12 @@ $(document).ready(function (){
 					$('h1').html('Влажность почвы:<br/>Очень высокая');
 				}
 
-				if(parseInt(data) > config.humidity_high){
+				if(current_sensor_data > config.humidity_high){
 					$('body').animate({backgroundColor: '#F0C419'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Очень низкая');
 				}
 
-				if((parseInt(data) >= low_with_histersis) &&  (parseInt(data) <= high_with_hysteresis)){
+				if((current_sensor_data >= low_with_hysteresis) &&  (current_sensor_data <= high_with_hysteresis)){
 					$('body').animate({backgroundColor: '#4EBA6F'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Нормальная');
 				}

@@ -1,1 +1,1 @@
-{"humidity_low":"400","humidity_high":"800","interval":"3000","animation_time":"500","hysteresis":"10"}
+{"humidity_low":"400","humidity_high":"800","interval":"1000","animation_time":"500","hysteresis":"5"}
