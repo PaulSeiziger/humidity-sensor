@@ -31,7 +31,7 @@ html,body{
 
 
 body {
-	background-color: #F0C419;
+	background-color: #F15A5A;
 	text-align: center;
 	color: white;
 	font-family: "OpenSans";
@@ -81,13 +81,17 @@ h1 {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-top:  -150px;
+	margin-top:  -175px;
 	margin-left: -300px;
 	width: 600px;
-	height: 300px;
+	height: 350px;
 	border: 5px solid white;
 	z-index: 1;
 	background-color: #955BA5;
+}
+
+.config_window td {
+	padding-top: 6px;
 }
 
 .send_config {

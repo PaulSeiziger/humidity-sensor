@@ -30,7 +30,7 @@ void main(void)
 
 	command = UCA0RXBUF;
 
-	if (command == 0x01){
+	if (command == GET_HUMIDITY){
 		send_HumiditySensorData(
 				get_HumiditySensorData()
 		);
@@ -38,11 +38,6 @@ void main(void)
 		//Переключить светодиод
 		P1OUT ^= INDICATOR;
 	}
-	/*else
-	{
-		send_HumiditySensorData(command);
-	}*/
-
 
   }
 }
@@ -80,7 +75,7 @@ void init_ADC(void)
 	ADC10CTL0 &= ~ENC;
 	ADC10CTL0 = SREF_0 + ADC10SHT_2 + ADC10ON;
 
-	// Вход A0, делитель ADC10CLK на 1, одноканальный режим.
+	//делитель ADC10CLK на 1, одноканальный режим.
 	ADC10CTL1 =  HSENSOR_CHANNEL + SHS_0 + ADC10SSEL_0 + ADC10DIV_0 + CONSEQ_0;
 
 
@@ -92,24 +87,30 @@ void init_ADC(void)
 
 int get_HumiditySensorData(void)
 {
+	int adc_data = 0;
+	char i = 0;
+
 	HSENSOR_ON;
 
-	ADC10CTL0 |= ADC10SC;   // начинаем новое преобразование
-	while ((ADC10CTL1 & ADC10BUSY) == 0x01); // ждем, когда преобразование закончится
+	for (i = 0; i < COUNT_MESUREMENTS; i++){
+		ADC10CTL0 |= ADC10SC;   // начинаем новое преобразование
+		while ((ADC10CTL1 & ADC10BUSY) == 0x01); // ждем, когда преобразование закончится
+		adc_data += ADC10MEM;
+	}
 
 	HSENSOR_OFF;
 
-	return ADC10MEM;  // конвертируем результат в напряжение и сохраняем
+	return adc_data / COUNT_MESUREMENTS;
 }
 
 
 void send_HumiditySensorData(int data)
 {
-	while (!(IFG2 & UCA0TXIFG)); // Проверка готовности буфера отправки.
+	while (!(IFG2 & UCA0TXIFG));
 	UCA0TXBUF = (char)(data >> 8);
 
 
-	while (!(IFG2 & UCA0TXIFG)); // Проверка готовности буфера отправки.
+	while (!(IFG2 & UCA0TXIFG));
 	UCA0TXBUF = (char)data;
 }
 

@@ -18,14 +18,32 @@ var serialPort = new SerialPort(config.com_port, {
 
 var humidity_value = 0;
 
+var humidity_buffer = new Buffer(2); //Данный буфер необходим для приема байт приходящих отдельно друг от друга, а не в один буфер.
+var humidity_pointer = 0;
+
 serialPort.on("open", function () {
 	console.log('Connected...');
 
 	serialPort.on('data', function(data) {
-		//Нужно чтобы входящий пакет состоял из 2-х байт
-		//console.log(data);
-		if(data.length == 2){
+		console.log(data);
+		//Нужно чтобы входящий пакет состоял хотя бы из 2-х байт (если больше остальные учитываться не будут)
+		if(data.length >= 2){
 			humidity_value = (data[0] << 8) | data[1];
+			humidity_pointer = 0;
+		}else{
+
+			//если за раз удалось захватить лишь один байт помещаем его в буфер
+			humidity_buffer[humidity_pointer] = data[0];
+			humidity_pointer++;
+
+			if (humidity_pointer == 2){
+				console.log('Union buffer');
+				console.log(humidity_buffer);
+				console.log('---------------------------------------------------');
+				humidity_value = (humidity_buffer[0] << 8) | humidity_buffer[1];
+				humidity_pointer = 0;
+			}
+
 		}
 		
 	});

@@ -8,6 +8,7 @@ $(document).ready(function (){
 		$('#high').val(data.humidity_high);
 		$('#interval').val(data.interval);
 		$('#animation_time').val(data.animation_time);
+		$('#hysteresis').val(data.hysteresis);
 
 
 
@@ -15,8 +16,11 @@ $(document).ready(function (){
 		function getHumibility(){
 			$.get('/humidity',function (data){
 				//$('.content').html(data);
+				var current_sensor_data = parseInt(data);
+				var low_with_hysteresis = parseInt(config.humidity_low) + parseInt(config.hysteresis);
+				var high_with_hysteresis = parseInt(config.humidity_high) - parseInt(config.hysteresis);
 
-				if(parseInt(data) < config.humidity_low){
+				if(current_sensor_data < config.humidity_low){
 					$('body').animate({backgroundColor: '#2D95BF'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Очень высокая');
 				}
@@ -26,7 +30,7 @@ $(document).ready(function (){
 					$('h1').html('Влажность почвы:<br/>Очень низкая');
 				}
 
-				if((parseInt(data) >= config.humidity_low) && (parseInt(data) <= config.humidity_high)){
+				if((parseInt(data) >= low_with_histersis) &&  (parseInt(data) <= high_with_hysteresis)){
 					$('body').animate({backgroundColor: '#4EBA6F'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Нормальная');
 				}
@@ -44,6 +48,7 @@ $(document).ready(function (){
 		config.humidity_high = $('#high').val();
 		config.interval = $('#interval').val();
 		config.animation_time = $('#animation_time').val();
+		config.hysteresis = $('#hysteresis').val();
 
 		$.post('/set_config', config, function(data){
 			location.reload();

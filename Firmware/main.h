@@ -7,11 +7,16 @@
 
 #define INDICATOR		BIT6
 
+#define COUNT_MESUREMENTS 10
+
 
 
 #define HSENSOR_ON 		P1OUT |= HSENSOR_VCC;__delay_cycles(16000);
 #define HSENSOR_OFF 	P1OUT &= ~HSENSOR_VCC;
 
+
+//Commads
+#define GET_HUMIDITY	0x01
 
 void init_UART(void);
 void init_ADC(void);
