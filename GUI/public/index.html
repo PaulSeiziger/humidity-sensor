@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Датчик влажности почвы</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 	<script src="/js/jquery.color-2.1.2.min.js"></script>
@@ -18,8 +19,8 @@
 		<div class="title">Настройки</div>
 		<table>
 			<tr>
-				<td>Низкая влажность, от: <input type="text" id="low"></td>
 				<td>Высокая влажность, от: <input type="text" id="high"></td>
+				<td>Низкая влажность, от: <input type="text" id="low"></td>
 			</tr>
 			<tr>
 				<td>Гистерезис:<br/><input type="text" id="hysteresis"></td>
@@ -27,7 +28,7 @@
 			</tr>
 			<tr>
 				<td>Время анимации, мс.: <input type="text" id="animation_time"></td>
-				<td></td>
+				<td>Отключить после, мс.: <input type="text" id="stopscan_time"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><button class="send_config">Сохранить настройки</button></td>

@@ -9,6 +9,7 @@ $(document).ready(function (){
 		$('#interval').val(data.interval);
 		$('#animation_time').val(data.animation_time);
 		$('#hysteresis').val(data.hysteresis);
+		$('#stopscan_time').val(data.stopscan_time);
 
 
 
@@ -16,23 +17,24 @@ $(document).ready(function (){
 		function getHumibility(){
 			$.get('/humidity',function (data){
 				//$('.content').html(data);
-				var current_sensor_data = parseInt(data);
+				var current_sensor_data = parseInt(data.value);
 				var low_with_hysteresis = parseInt(config.humidity_low) + parseInt(config.hysteresis);
 				var high_with_hysteresis = parseInt(config.humidity_high) - parseInt(config.hysteresis);
 
-				if(current_sensor_data < config.humidity_low){
+				if(data.status == "high") {
 					$('body').animate({backgroundColor: '#2D95BF'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Очень высокая');
-				}
 
-				if(current_sensor_data > config.humidity_high){
+				} else if(data.status == "low") {
 					$('body').animate({backgroundColor: '#F0C419'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Очень низкая');
-				}
 
-				if((current_sensor_data >= low_with_hysteresis) &&  (current_sensor_data <= high_with_hysteresis)){
+				} else if(data.status == "medium") {
 					$('body').animate({backgroundColor: '#4EBA6F'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Нормальная');
+				} else {
+					$('body').animate({backgroundColor: '#F15A5A'}, config.animation_time);
+					$('h1').html('Влажность почвы:<br/>Не определена');
 				}
 			});
 		}
@@ -49,6 +51,7 @@ $(document).ready(function (){
 		config.interval = $('#interval').val();
 		config.animation_time = $('#animation_time').val();
 		config.hysteresis = $('#hysteresis').val();
+		config.stopscan_time = $('#stopscan_time').val();
 
 		$.post('/set_config', config, function(data){
 			location.reload();

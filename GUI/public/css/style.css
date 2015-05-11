@@ -2,10 +2,10 @@
 	font-family: 'RobotoSlab';
 	src: url('../fonts/roboto/RobotoSlab-Bold.eot');
 	src: url('../fonts/roboto/RobotoSlab-Bold.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/roboto/RobotoSlab-Bold.woff2') format('woff2'),
-		url('../fonts/roboto/RobotoSlab-Bold.woff') format('woff'),
-		url('../fonts/roboto/RobotoSlab-Bold.ttf') format('truetype'),
-		url('../fonts/roboto/RobotoSlab-Bold.svg#RobotoSlab-Bold') format('svg');
+		 url('../fonts/roboto/RobotoSlab-Bold.woff2') format('woff2'),
+		 url('../fonts/roboto/RobotoSlab-Bold.woff') format('woff'),
+		 url('../fonts/roboto/RobotoSlab-Bold.ttf') format('truetype'),
+		 url('../fonts/roboto/RobotoSlab-Bold.svg#RobotoSlab-Bold') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -14,10 +14,10 @@
 	font-family: 'OpenSans';
 	src: url('../fonts/opensans/OpenSans.eot');
 	src: url('../fonts/opensans/OpenSans.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/opensans/OpenSans.woff2') format('woff2'),
-		url('../fonts/opensans/OpenSans.woff') format('woff'),
-		url('../fonts/opensans/OpenSans.ttf') format('truetype'),
-		url('../fonts/opensans/OpenSans.svg#OpenSans') format('svg');
+		 url('../fonts/opensans/OpenSans.woff2') format('woff2'),
+		 url('../fonts/opensans/OpenSans.woff') format('woff'),
+		 url('../fonts/opensans/OpenSans.ttf') format('truetype'),
+		 url('../fonts/opensans/OpenSans.svg#OpenSans') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -82,8 +82,8 @@ h1 {
 	top: 50%;
 	left: 50%;
 	margin-top:  -175px;
-	margin-left: -300px;
-	width: 600px;
+	margin-left: -275px;
+	width: 550px;
 	height: 350px;
 	border: 5px solid white;
 	z-index: 1;
