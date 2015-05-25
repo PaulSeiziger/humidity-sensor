@@ -21,6 +21,8 @@ var sensor_request = {};
 var count_request = 0;
 
 var humidity_value = 0;
+var humidity_status = '';
+var humidity_persent = 0;
 
 var humidity_buffer = new Buffer(2); //Данный буфер необходим для приема байт приходящих отдельно друг от друга, а не в один буфер.
 var humidity_pointer = 0;
@@ -77,6 +79,23 @@ serialPort.on("open", function () {
 
 			}
 
+		}
+
+		if (humidity_pointer == 0) {
+			if ((humidity_value >= gui_config.persent_100) && (humidity_value <= gui_config.persent_0)) {
+
+				reverse_value = 1024 - humidity_value;
+				reverse_max_value = 1024 - parseInt(gui_config.persent_100);
+				humidity_persent = reverse_value / reverse_max_value * 100;
+			}
+
+			if (humidity_value > gui_config.persent_0){
+				humidity_persent = 0;
+			}
+
+			if (humidity_value < gui_config.persent_100){
+				humidity_persent = 100;
+			}
 		}
 		
 	});
@@ -135,20 +154,21 @@ app.get('/humidity', function (req, res) {
 	var low_with_hysteresis = parseInt(gui_config.humidity_low) - parseInt(gui_config.hysteresis);
 	var high_with_hysteresis = parseInt(gui_config.humidity_high) + parseInt(gui_config.hysteresis);
 
-	var status = '';
+	
 
 	//Определяем значение показаний датчика
 	if(humidity_value < gui_config.humidity_high) {
-		status = 'high';
+		humidity_status = 'high';
 	} else if(humidity_value > gui_config.humidity_low) {
-		status = 'low';
+		humidity_status = 'low';
 	} else if((humidity_value >= high_with_hysteresis) &&  (humidity_value <= low_with_hysteresis)) {
-		status = 'medium';
+		humidity_status = 'medium';
 	}
 
 	json_package = {
 		'value': humidity_value.toString(),
-		'status': status
+		'status': humidity_status,
+		'persent': humidity_persent
 	};
 
 	res.set('Content-Type', 'application/json');

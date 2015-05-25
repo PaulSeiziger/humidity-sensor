@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h1>Влажность почвы:<br/>Не определена</h1>
-	<div class="content"><img src="images/plant.svg" alt="" width="200px"></div>
+	<div class="content"><span class="persent">0 %</span><!--img src="images/plant.svg" alt="" width="200px"--></div>
 	<img src="images/config.svg" alt="" class="show_config">
 
 	<div class="config_window">
@@ -29,6 +29,10 @@
 			<tr>
 				<td>Время анимации, мс.: <input type="text" id="animation_time"></td>
 				<td>Отключить после, мс.: <input type="text" id="stopscan_time"></td>
+			</tr>
+			<tr>
+				<td>Влажность 0% при: <input type="text" id="persent_0"></td>
+				<td>Влажность 100% при: <input type="text" id="persent_100"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><button class="send_config">Сохранить настройки</button></td>

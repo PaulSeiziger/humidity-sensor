@@ -10,6 +10,8 @@ $(document).ready(function (){
 		$('#animation_time').val(data.animation_time);
 		$('#hysteresis').val(data.hysteresis);
 		$('#stopscan_time').val(data.stopscan_time);
+		$('#persent_0').val(data.persent_0);
+		$('#persent_100').val(data.persent_100);
 
 
 
@@ -36,6 +38,9 @@ $(document).ready(function (){
 					$('body').animate({backgroundColor: '#F15A5A'}, config.animation_time);
 					$('h1').html('Влажность почвы:<br/>Не определена');
 				}
+
+				console.log(data.persent);
+				$('.persent').html(parseFloat(data.persent).toFixed(0) + ' %');
 			});
 		}
 
@@ -52,6 +57,8 @@ $(document).ready(function (){
 		config.animation_time = $('#animation_time').val();
 		config.hysteresis = $('#hysteresis').val();
 		config.stopscan_time = $('#stopscan_time').val();
+		config.persent_100 = $('#persent_100').val();
+		config.persent_0 = $('#persent_0').val();
 
 		$.post('/set_config', config, function(data){
 			location.reload();
